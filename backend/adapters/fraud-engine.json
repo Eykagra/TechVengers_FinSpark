@@ -1,0 +1,58 @@
+{
+  "id": "fraud-engine",
+  "name": "Fraud Detection Engine Adapter",
+  "category": "fraud",
+  "description": "Integrates with fraud detection platforms: Hunter.io, SEON, Signzy. Provides device fingerprinting, email/phone risk scoring, and synthetic identity detection.",
+  "tags": ["fraud", "risk", "hunter", "seon", "signzy", "detection", "aml", "device"],
+  "versions": [
+    {
+      "version": "1.0.0",
+      "status": "deprecated",
+      "endpoint": "/v1/fraud/check",
+      "authType": "API_KEY",
+      "notes": "Basic email and phone risk check.",
+      "requestSchema": {
+        "email": "string",
+        "phone": "string"
+      },
+      "responseSchema": {
+        "riskScore": "number",
+        "disposable": "boolean",
+        "deliverable": "boolean"
+      }
+    },
+    {
+      "version": "2.0.0",
+      "status": "stable",
+      "endpoint": "/v2/fraud/profile",
+      "authType": "OAuth2",
+      "notes": "Full fraud profile with device fingerprint, behavioral scoring, and AML checks.",
+      "requestSchema": {
+        "email": "string",
+        "phone": "string",
+        "ip": "string",
+        "deviceFingerprint": "string",
+        "pan": "string",
+        "sessionBehavior": "object"
+      },
+      "responseSchema": {
+        "overallRiskScore": "number",
+        "riskBand": "enum(LOW,MEDIUM,HIGH,CRITICAL)",
+        "emailRisk": "object",
+        "phoneRisk": "object",
+        "deviceRisk": "object",
+        "amlFlags": "array",
+        "syntheticIdentityScore": "number",
+        "recommendation": "enum(APPROVE,REVIEW,REJECT)",
+        "fraudId": "string"
+      }
+    }
+  ],
+  "hooks": [
+    { "event": "PRE_REQUEST", "name": "device_fingerprint_collect", "description": "Collects device fingerprint from SDK" },
+    { "event": "PRE_REQUEST", "name": "session_behavior_attach", "description": "Attaches behavioral biometrics data" },
+    { "event": "POST_RESPONSE", "name": "risk_decision_log", "description": "Logs risk decision to governance audit trail" },
+    { "event": "POST_RESPONSE", "name": "alert_on_critical", "description": "Triggers alert if riskBand is CRITICAL" },
+    { "event": "ON_ERROR", "name": "conservative_fallback", "description": "Returns REVIEW recommendation on API error (fail-safe)" }
+  ]
+}

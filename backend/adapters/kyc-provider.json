@@ -1,0 +1,78 @@
+{
+  "id": "kyc-provider",
+  "name": "KYC Provider Adapter",
+  "category": "kyc",
+  "description": "Integrates with KYC providers: Aadhaar eKYC, DigiLocker, VKYC platforms. Supports identity verification, liveness check, and document extraction.",
+  "tags": ["kyc", "aadhaar", "identity", "verification", "digilocker", "vkyc", "onboarding"],
+  "versions": [
+    {
+      "version": "1.0.0",
+      "status": "deprecated",
+      "endpoint": "/v1/kyc/verify",
+      "authType": "API_KEY",
+      "notes": "OTP-based Aadhaar eKYC only. Deprecated due to UIDAI policy changes.",
+      "requestSchema": {
+        "aadhaarNumber": "string",
+        "otp": "string"
+      },
+      "responseSchema": {
+        "verified": "boolean",
+        "name": "string",
+        "address": "string"
+      }
+    },
+    {
+      "version": "2.0.0",
+      "status": "stable",
+      "endpoint": "/v2/kyc/verify",
+      "authType": "OAuth2",
+      "notes": "Supports Aadhaar XML, DigiLocker, and PAN verification. Recommended.",
+      "requestSchema": {
+        "documentType": "enum(AADHAAR,PAN,PASSPORT)",
+        "documentId": "string",
+        "consent": "boolean",
+        "sessionId": "string"
+      },
+      "responseSchema": {
+        "verified": "boolean",
+        "name": "string",
+        "dob": "string",
+        "gender": "string",
+        "address": "object",
+        "photoBase64": "string",
+        "verificationId": "string"
+      }
+    },
+    {
+      "version": "2.5.0",
+      "status": "stable",
+      "endpoint": "/v2.5/kyc/vkyc",
+      "authType": "OAuth2",
+      "notes": "Adds VKYC (video KYC) with liveness detection and agent-assisted flow.",
+      "requestSchema": {
+        "documentType": "enum(AADHAAR,PAN,PASSPORT,DRIVING_LICENSE)",
+        "documentId": "string",
+        "consent": "boolean",
+        "sessionId": "string",
+        "kvkMode": "enum(LIVE,ASYNC)"
+      },
+      "responseSchema": {
+        "verified": "boolean",
+        "livenessScore": "number",
+        "name": "string",
+        "dob": "string",
+        "address": "object",
+        "videoRecordingUrl": "string",
+        "verificationId": "string",
+        "agentId": "string"
+      }
+    }
+  ],
+  "hooks": [
+    { "event": "PRE_REQUEST", "name": "consent_check", "description": "Validates digital consent before API call" },
+    { "event": "PRE_REQUEST", "name": "rate_limit_guard", "description": "Enforces per-tenant rate limits" },
+    { "event": "POST_RESPONSE", "name": "pii_encrypt", "description": "Encrypts PII fields before storage" },
+    { "event": "POST_RESPONSE", "name": "audit_log", "description": "Logs verification event to audit trail" },
+    { "event": "ON_ERROR", "name": "fallback_manual", "description": "Escalates to manual review queue on failure" }
+  ]
+}

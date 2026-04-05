@@ -1,0 +1,58 @@
+{
+  "id": "gst-service",
+  "name": "GST Service Adapter",
+  "category": "gst",
+  "description": "Integrates with GST APIs for GSTIN verification, GST return filing status, and ITR fetch for business loan underwriting.",
+  "tags": ["gst", "gstin", "tax", "itr", "business", "underwriting", "compliance"],
+  "versions": [
+    {
+      "version": "1.0.0",
+      "status": "stable",
+      "endpoint": "/v1/gst/verify",
+      "authType": "API_KEY",
+      "notes": "GSTIN validation and basic return status fetch.",
+      "requestSchema": {
+        "gstin": "string",
+        "pan": "string"
+      },
+      "responseSchema": {
+        "valid": "boolean",
+        "legalName": "string",
+        "state": "string",
+        "registration_date": "string",
+        "status": "enum(ACTIVE,CANCELLED,SUSPENDED)"
+      }
+    },
+    {
+      "version": "2.0.0",
+      "status": "stable",
+      "endpoint": "/v2/gst/profile",
+      "authType": "OAuth2",
+      "notes": "Enriched GST profile with ITR data and annual turnover computation.",
+      "requestSchema": {
+        "gstin": "string",
+        "pan": "string",
+        "consentToken": "string",
+        "financialYears": "array<string>"
+      },
+      "responseSchema": {
+        "valid": "boolean",
+        "legalName": "string",
+        "tradeName": "string",
+        "state": "string",
+        "registrationDate": "string",
+        "status": "string",
+        "annualTurnover": "array<object>",
+        "gst3BFilingHistory": "array<object>",
+        "itrData": "object",
+        "riskScore": "number"
+      }
+    }
+  ],
+  "hooks": [
+    { "event": "PRE_REQUEST", "name": "gstin_validate", "description": "Validates GSTIN format before API call" },
+    { "event": "POST_RESPONSE", "name": "turnover_compute", "description": "Computes aggregate annual turnover from returns" },
+    { "event": "POST_RESPONSE", "name": "risk_score_enrich", "description": "Enriches response with filing compliance risk score" },
+    { "event": "ON_ERROR", "name": "retry_with_pan", "description": "Retries using PAN if GSTIN lookup fails" }
+  ]
+}

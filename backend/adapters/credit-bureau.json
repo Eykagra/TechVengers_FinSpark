@@ -1,0 +1,74 @@
+{
+  "id": "credit-bureau",
+  "name": "Credit Bureau Adapter",
+  "category": "credit",
+  "description": "Integrates with major credit bureaus: CIBIL, Experian, Equifax. Fetches credit scores, bureau reports, and delinquency history.",
+  "tags": ["credit", "score", "bureau", "CIBIL", "Experian", "Equifax", "lending"],
+  "versions": [
+    {
+      "version": "1.0.0",
+      "status": "deprecated",
+      "endpoint": "/v1/credit/report",
+      "authType": "API_KEY",
+      "notes": "Legacy XML-based response format.",
+      "requestSchema": {
+        "pan": "string",
+        "dob": "string (YYYY-MM-DD)"
+      },
+      "responseSchema": {
+        "creditScore": "number",
+        "bureau": "string",
+        "reportDate": "string"
+      }
+    },
+    {
+      "version": "2.0.0",
+      "status": "stable",
+      "endpoint": "/v2/credit/report",
+      "authType": "OAuth2",
+      "notes": "JSON response with enriched fields. Preferred for new integrations.",
+      "requestSchema": {
+        "panNumber": "string",
+        "dateOfBirth": "string (YYYY-MM-DD)",
+        "consentToken": "string"
+      },
+      "responseSchema": {
+        "score": "number",
+        "bureau": "string",
+        "reportDate": "string (ISO8601)",
+        "accounts": "array",
+        "delinquencies": "array",
+        "enquiries": "array"
+      }
+    },
+    {
+      "version": "3.0.0-beta",
+      "status": "beta",
+      "endpoint": "/v3/credit/report",
+      "authType": "mTLS",
+      "notes": "Real-time streaming report with AI-enriched risk flags.",
+      "requestSchema": {
+        "panNumber": "string",
+        "dateOfBirth": "string",
+        "consentToken": "string",
+        "reportType": "enum(FULL,SUMMARY)"
+      },
+      "responseSchema": {
+        "score": "number",
+        "riskBand": "string",
+        "bureau": "string",
+        "reportDate": "string",
+        "accounts": "array",
+        "aiRiskFlags": "array"
+      }
+    }
+  ],
+  "hooks": [
+    { "event": "PRE_REQUEST", "name": "auth_inject", "description": "Injects OAuth2 bearer token" },
+    { "event": "PRE_REQUEST", "name": "consent_validate", "description": "Validates consent token expiry" },
+    { "event": "POST_RESPONSE", "name": "score_normalize", "description": "Normalizes score to 300-900 range" },
+    { "event": "POST_RESPONSE", "name": "pii_mask", "description": "Masks PAN and DOB in logs" },
+    { "event": "ON_ERROR", "name": "retry_backoff", "description": "Exponential backoff on 5xx errors" },
+    { "event": "ON_TIMEOUT", "name": "fallback_cache", "description": "Returns last cached report on timeout" }
+  ]
+}

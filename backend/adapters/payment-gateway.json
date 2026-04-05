@@ -1,0 +1,60 @@
+{
+  "id": "payment-gateway",
+  "name": "Payment Gateway Adapter",
+  "category": "payments",
+  "description": "Integrates with payment gateways: Razorpay, Cashfree, PhonePe for EMI collection, disbursals, and mandate registration.",
+  "tags": ["payments", "razorpay", "cashfree", "phonepe", "emi", "mandate", "disbursal", "nach"],
+  "versions": [
+    {
+      "version": "1.0.0",
+      "status": "deprecated",
+      "endpoint": "/v1/payment/initiate",
+      "authType": "API_KEY",
+      "notes": "Basic payment initiation. No webhook support.",
+      "requestSchema": {
+        "amount": "number",
+        "currency": "string",
+        "orderId": "string",
+        "customerId": "string"
+      },
+      "responseSchema": {
+        "paymentId": "string",
+        "status": "enum(PENDING,SUCCESS,FAILED)",
+        "redirectUrl": "string"
+      }
+    },
+    {
+      "version": "2.0.0",
+      "status": "stable",
+      "endpoint": "/v2/payment",
+      "authType": "OAuth2",
+      "notes": "Full payment lifecycle with webhooks, refunds, and NACH mandate.",
+      "requestSchema": {
+        "amount": "number",
+        "currency": "string",
+        "orderId": "string",
+        "customerId": "string",
+        "paymentMethod": "enum(UPI,CARD,NETBANKING,NACH,WALLET)",
+        "mandateDetails": "object",
+        "callbackUrl": "string",
+        "idempotencyKey": "string"
+      },
+      "responseSchema": {
+        "paymentId": "string",
+        "orderId": "string",
+        "status": "enum(PENDING,AUTHORIZED,CAPTURED,REFUNDED,FAILED)",
+        "amount": "number",
+        "method": "string",
+        "createdAt": "string",
+        "webhookId": "string"
+      }
+    }
+  ],
+  "hooks": [
+    { "event": "PRE_REQUEST", "name": "idempotency_key_inject", "description": "Generates and injects idempotency key" },
+    { "event": "PRE_REQUEST", "name": "amount_validate", "description": "Validates amount within configured limits" },
+    { "event": "POST_RESPONSE", "name": "webhook_register", "description": "Registers payment webhook for status updates" },
+    { "event": "POST_RESPONSE", "name": "reconcile_log", "description": "Logs payment event for reconciliation" },
+    { "event": "ON_ERROR", "name": "duplicate_payment_guard", "description": "Checks idempotency store to prevent duplicate charges" }
+  ]
+}
