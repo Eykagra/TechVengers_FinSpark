@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: finspark-backend
+    name: integration-orchestrator-backend
     env: node
     rootDir: backend
     plan: free

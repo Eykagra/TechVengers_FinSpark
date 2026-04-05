@@ -1,6 +1,6 @@
-# FinSpark - AI Integration Orchestration Engine
+# AI Integration Orchestration Engine
 
-FinSpark is a full-stack hackathon project that parses requirement docs, ranks adapters, generates config mappings, simulates payload execution, and keeps governance/audit logs.
+This is a full-stack hackathon project that parses requirement docs, ranks adapters, generates config mappings, simulates payload execution, and keeps governance/audit logs.
 
 ## Tech Stack
 
@@ -50,13 +50,13 @@ This repo includes `render.yaml` for Blueprint deployment.
 
 1. In Render, choose `New +` -> `Blueprint`.
 2. Connect this GitHub repo.
-3. Render reads `render.yaml` and creates service `finspark-backend`.
+3. Render reads `render.yaml` and creates service `integration-orchestrator-backend`.
 4. Set secret env vars in Render dashboard:
 	- `NVIDIA_API_KEY`
 	- `NVIDIA_API_KEY_CHAT`
 	- `NVIDIA_API_KEY_LLAMA3_2_NEMORETRIEVER_EMBED`
 5. Deploy and copy backend URL, for example:
-	- `https://finspark-backend.onrender.com`
+	- `https://integration-orchestrator-backend.onrender.com`
 
 ## Deploy Frontend on Vercel
 

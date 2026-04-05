@@ -12,25 +12,25 @@ function safeRead(key, fallback) {
 }
 
 export function EngineProvider({ children }) {
-  const [parsed, setParsed] = useState(() => safeRead('finspark.parsed', null));
-  const [rankings, setRankings] = useState(() => safeRead('finspark.rankings', []));
-  const [config, setConfig] = useState(() => safeRead('finspark.config', null));
-  const [simulation, setSimulation] = useState(() => safeRead('finspark.simulation', null));
+  const [parsed, setParsed] = useState(() => safeRead('integration.parsed', null));
+  const [rankings, setRankings] = useState(() => safeRead('integration.rankings', []));
+  const [config, setConfig] = useState(() => safeRead('integration.config', null));
+  const [simulation, setSimulation] = useState(() => safeRead('integration.simulation', null));
 
   useEffect(() => {
-    localStorage.setItem('finspark.parsed', JSON.stringify(parsed));
+    localStorage.setItem('integration.parsed', JSON.stringify(parsed));
   }, [parsed]);
 
   useEffect(() => {
-    localStorage.setItem('finspark.rankings', JSON.stringify(rankings));
+    localStorage.setItem('integration.rankings', JSON.stringify(rankings));
   }, [rankings]);
 
   useEffect(() => {
-    localStorage.setItem('finspark.config', JSON.stringify(config));
+    localStorage.setItem('integration.config', JSON.stringify(config));
   }, [config]);
 
   useEffect(() => {
-    localStorage.setItem('finspark.simulation', JSON.stringify(simulation));
+    localStorage.setItem('integration.simulation', JSON.stringify(simulation));
   }, [simulation]);
 
   const value = useMemo(() => ({

@@ -1,14 +1,14 @@
-# FinSpark — AI-Assisted Integration Configuration & Orchestration Engine
+# AI-Assisted Integration Configuration & Orchestration Engine
 
 ## 1) Executive Summary
-FinSpark is an AI-powered orchestration platform that converts requirement intent into deployable integration configuration without writing adapter code.
+This project is an AI-powered orchestration platform that converts requirement intent into deployable integration configuration without writing adapter code.
 
-Enterprise teams upload BRDs/SOWs/API specs. FinSpark parses them with NVIDIA NIM, ranks matching adapters from a declarative registry, auto-generates configuration templates with field mappings, simulates multiple adapter versions in parallel, and provides governed approval with full auditability.
+Enterprise teams upload BRDs/SOWs/API specs. The engine parses them with NVIDIA NIM, ranks matching adapters from a declarative registry, auto-generates configuration templates with field mappings, simulates multiple adapter versions in parallel, and provides governed approval with full auditability.
 
 ### Why this matters
 - Integration configuration is a major delivery bottleneck in enterprise lending.
-- FinSpark reduces manual analysis and repetitive mapping work.
-- FinSpark improves governance with tenant isolation, versioning, and rollback.
+- The engine reduces manual analysis and repetitive mapping work.
+- The engine improves governance with tenant isolation, versioning, and rollback.
 
 ## 2) Problem Fit
 This solution addresses all challenge pillars:
@@ -59,7 +59,7 @@ flowchart TD
 ```
 
 ## 5) AI Usage (NVIDIA NIM)
-FinSpark uses NVIDIA NIM APIs as orchestration intelligence, not as runtime adapter code execution.
+The engine uses NVIDIA NIM APIs as orchestration intelligence, not as runtime adapter code execution.
 
 ### Model responsibilities
 - meta/llama-3.1-70b-instruct
@@ -124,4 +124,4 @@ Estimated score confidence: 84-91/100 based on implementation completeness at su
 - [ ] Final demo script and submission video
 
 ## 11) Conclusion
-FinSpark demonstrates that enterprise integration can be configured from intent, not code. With NVIDIA NIM as orchestration intelligence and a declarative adapter ecosystem, teams can move from document input to governed, testable, production-ready integration configurations significantly faster and with lower risk.
+This project demonstrates that enterprise integration can be configured from intent, not code. With NVIDIA NIM as orchestration intelligence and a declarative adapter ecosystem, teams can move from document input to governed, testable, production-ready integration configurations significantly faster and with lower risk.

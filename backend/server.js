@@ -828,7 +828,7 @@ app.get('/api/audit', (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`FinSpark backend running on http://localhost:${PORT}`);
+  console.log(`Integration Orchestrator backend running on http://localhost:${PORT}`);
   if (!chatApiKey || !embedApiKey) {
     console.warn('NVIDIA key(s) missing. Set NVIDIA_API_KEY_CHAT and NVIDIA_API_KEY_LLAMA3_2_NEMORETRIEVER_EMBED.');
   }

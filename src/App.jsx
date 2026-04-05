@@ -38,7 +38,7 @@ function Sidebar({ tenantId, setTenantId }) {
         <div className="logo-mark">
           <div className="logo-icon">⚡</div>
           <div>
-            <div className="logo-name gradient-text">FinSpark</div>
+            <div className="logo-name gradient-text">Integration Engine</div>
             <div className="logo-sub">Orchestration Engine</div>
           </div>
         </div>
