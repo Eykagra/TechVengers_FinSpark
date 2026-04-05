@@ -1,6 +1,6 @@
 # AI Integration Orchestration Engine
 
-This is a full-stack hackathon project that parses requirement docs, ranks adapters, generates config mappings, simulates payload execution, and keeps governance/audit logs.
+This full-stack hackathon project parses requirement docs, ranks adapters, generates config mappings, simulates payload execution, and keeps governance/audit logs.
 
 ## Tech Stack
 

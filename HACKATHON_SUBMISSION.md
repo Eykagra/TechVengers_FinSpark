@@ -1,7 +1,7 @@
 # AI-Assisted Integration Configuration & Orchestration Engine
 
 ## 1) Executive Summary
-This project is an AI-powered orchestration platform that converts requirement intent into deployable integration configuration without writing adapter code.
+This submission is an AI-powered orchestration platform that converts requirement intent into deployable integration configuration without writing adapter code.
 
 Enterprise teams upload BRDs/SOWs/API specs. The engine parses them with NVIDIA NIM, ranks matching adapters from a declarative registry, auto-generates configuration templates with field mappings, simulates multiple adapter versions in parallel, and provides governed approval with full auditability.
 

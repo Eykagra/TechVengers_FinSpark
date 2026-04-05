@@ -15,7 +15,7 @@ const NAV_ITEMS = [
   {
     section: 'Engine Modules',
     items: [
-      { path: '/one-pager',  icon: '🧭', label: 'One Pager Flow',     badge: 'NEW' },
+      { path: '/one-pager',  icon: '🧭', label: 'One-Page Flow',      badge: 'NEW' },
       { path: '/parser',     icon: '📄', label: 'Requirement Parser',  badge: 'AI' },
       { path: '/registry',   icon: '🗂️', label: 'Integration Registry', badge: null },
       { path: '/config',     icon: '⚙️', label: 'Auto-Configuration',  badge: 'AI' },
