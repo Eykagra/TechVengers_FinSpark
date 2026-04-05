@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: finspark-backend
+    env: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NVIDIA_API_KEY
+        sync: false
+      - key: NVIDIA_API_KEY_CHAT
+        sync: false
+      - key: NVIDIA_API_KEY_LLAMA3_2_NEMORETRIEVER_EMBED
+        sync: false
+      - key: PORT
+        value: "3001"
+      - key: NIM_CHAT_MODEL
+        value: "abacusai/dracarys-llama-3.1-70b-instruct"
+      - key: NIM_EMBED_MODEL
+        value: "nvidia/llama-3.2-nemoretriever-300m-embed-v1"
+      - key: NIM_EMBED_FALLBACK_MODELS
+        value: "nvidia/llama-3.2-nemoretriever-300m-embed-v1,llama-3_2-nemoretriever-300m-embed-v1,nv-embed-v1"

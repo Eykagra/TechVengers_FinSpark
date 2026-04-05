@@ -1,16 +1,77 @@
-# React + Vite
+# FinSpark - AI Integration Orchestration Engine
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FinSpark is a full-stack hackathon project that parses requirement docs, ranks adapters, generates config mappings, simulates payload execution, and keeps governance/audit logs.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Frontend: React + Vite
+- Backend: Node.js + Express
+- AI: NVIDIA NIM (chat + embeddings)
 
-## React Compiler
+## Local Development
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Install frontend dependencies:
 
-## Expanding the ESLint configuration
+```bash
+npm install
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. Install backend dependencies:
+
+```bash
+cd backend
+npm install
+```
+
+3. Configure backend env:
+
+- Copy `backend/.env.example` to `backend/.env`
+- Fill values for:
+  - `NVIDIA_API_KEY`
+  - `NVIDIA_API_KEY_CHAT`
+  - `NVIDIA_API_KEY_LLAMA3_2_NEMORETRIEVER_EMBED`
+
+4. Run backend:
+
+```bash
+cd backend
+npm run dev
+```
+
+5. Run frontend:
+
+```bash
+npm run dev
+```
+
+## Deploy Backend on Render
+
+This repo includes `render.yaml` for Blueprint deployment.
+
+1. In Render, choose `New +` -> `Blueprint`.
+2. Connect this GitHub repo.
+3. Render reads `render.yaml` and creates service `finspark-backend`.
+4. Set secret env vars in Render dashboard:
+	- `NVIDIA_API_KEY`
+	- `NVIDIA_API_KEY_CHAT`
+	- `NVIDIA_API_KEY_LLAMA3_2_NEMORETRIEVER_EMBED`
+5. Deploy and copy backend URL, for example:
+	- `https://finspark-backend.onrender.com`
+
+## Deploy Frontend on Vercel
+
+This repo includes `vercel.json` for Vite SPA settings.
+
+1. In Vercel, import this GitHub repo.
+2. Build settings:
+	- Framework: `Vite`
+	- Build command: `npm run build`
+	- Output directory: `dist`
+3. Set environment variable:
+	- `VITE_API_BASE_URL=https://<your-render-backend>/api`
+4. Deploy.
+
+## Important Notes
+
+- Never commit `.env` files or API keys.
+- Frontend API base URL is read from `VITE_API_BASE_URL` and falls back to `http://localhost:3001/api` for local development.
